@@ -23,9 +23,17 @@ sentence:  asignacion | compare | suma | factorial | rev | max |min | sort |
 // Producciones
 asignacion: ID IGUAL NUMBER ;
 compare: NUMBER OPERACIONES NUMBER;
-factorial: FACTORIAL PARENTABRE NUMBER PARENTCIE
-	{System.out.println("Realizando el factorial de un numero");};
-unique:UNIQUE PARENTABRE ID PARENTCIE;
+factorial returns [int result]
+    : FACTORIAL PARENTABRE n=NUMBER PARENTCIE
+    {
+        int num = Integer.parseInt($n.text);
+        $result = 1;
+        for (int i = 1; i <= num; i++) {
+            $result *= i;
+        }
+        System.out.println("Factorial de " + num + " es " + $result);
+    };
+ unique:UNIQUE PARENTABRE ID PARENTCIE;
 
 
 suma returns [int value]: 
@@ -97,6 +105,7 @@ COMAC:',';
 
 NUMBER:[0-9]+;
 ID: [a-zA-Z]+ NUMBER*;
+
 
 
 FIN: '#';

@@ -404,10 +404,12 @@ public class SimpleParser extends Parser {
 	}
 
 	public static class FactorialContext extends ParserRuleContext {
+		public int result;
+		public Token n;
 		public TerminalNode FACTORIAL() { return getToken(SimpleParser.FACTORIAL, 0); }
 		public TerminalNode PARENTABRE() { return getToken(SimpleParser.PARENTABRE, 0); }
-		public TerminalNode NUMBER() { return getToken(SimpleParser.NUMBER, 0); }
 		public TerminalNode PARENTCIE() { return getToken(SimpleParser.PARENTCIE, 0); }
+		public TerminalNode NUMBER() { return getToken(SimpleParser.NUMBER, 0); }
 		public FactorialContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -438,10 +440,17 @@ public class SimpleParser extends Parser {
 			setState(55);
 			match(PARENTABRE);
 			setState(56);
-			match(NUMBER);
+			((FactorialContext)_localctx).n = match(NUMBER);
 			setState(57);
 			match(PARENTCIE);
-			System.out.println("Realizando el factorial de un numero");
+
+			        int num = Integer.parseInt((((FactorialContext)_localctx).n!=null?((FactorialContext)_localctx).n.getText():null));
+			        ((FactorialContext)_localctx).result =  1;
+			        for (int i = 1; i <= num; i++) {
+			            _localctx.result *= i;
+			        }
+			        System.out.println("Factorial de " + num + " es " + _localctx.result);
+			    
 			}
 		}
 		catch (RecognitionException re) {
