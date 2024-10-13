@@ -21,7 +21,7 @@ texto: sentence* FIN;
 sentence:  asignacion | compare | suma | factorial | rev | max |min | sort |
 			 si | load;
 // Producciones
-asignacion: ID IGUAL NUMBER ;
+asignacion: ID IGUAL (NUMBER | VECTOR) ;
 compare: NUMBER OPERACIONES NUMBER;
 factorial returns [int result]
     : FACTORIAL PARENTABRE n=NUMBER PARENTCIE
@@ -34,7 +34,7 @@ factorial returns [int result]
         System.out.println("Factorial de " + num + " es " + $result);
     };
  unique:UNIQUE PARENTABRE ID PARENTCIE;
-
+ 
 
 suma returns [int value]: 
     SUMA PARENTABRE n1=NUMBER COMAC n2=NUMBER PARENTCIE
@@ -76,7 +76,7 @@ UNIQUE:	'unique';
 SUBSET:'subset';
 
 // Tokens para operadores aritmeticos 
-
+ 
 
 //Tokens Operadores Logicos
 
@@ -102,6 +102,8 @@ PARENTABRE:'(';
 PARENTCIE:')';
 COMAC:',';
 
+//Definicion de vector
+VECTOR: '(' NUMBER (COMAC NUMBER) * ')';
 
 NUMBER:[0-9]+;
 ID: [a-zA-Z]+ NUMBER*;

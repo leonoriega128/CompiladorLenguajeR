@@ -25,8 +25,8 @@ public class SimpleParser extends Parser {
 		OPERACIONES=1, IF=2, ELSE=3, SUMA=4, FACTORIAL=5, GRANDE=6, LOAD=7, MULTIVEC=8, 
 		MAX=9, MIN=10, SORT=11, REV=12, UNIQUE=13, SUBSET=14, AND=15, OR=16, NOT=17, 
 		IGUAL=18, MENOR=19, MAYOR=20, MAYORIGUAL=21, MENORIGUAL=22, ASIGN=23, 
-		LLAVEABRE=24, LLAVECIE=25, PARENTABRE=26, PARENTCIE=27, COMAC=28, NUMBER=29, 
-		ID=30, FIN=31, COMMENT=32, WS=33;
+		LLAVEABRE=24, LLAVECIE=25, PARENTABRE=26, PARENTCIE=27, COMAC=28, VECTOR=29, 
+		NUMBER=30, ID=31, FIN=32, COMMENT=33, WS=34;
 	public static final int
 		RULE_texto = 0, RULE_sentence = 1, RULE_asignacion = 2, RULE_compare = 3, 
 		RULE_factorial = 4, RULE_unique = 5, RULE_suma = 6, RULE_rev = 7, RULE_max = 8, 
@@ -40,15 +40,15 @@ public class SimpleParser extends Parser {
 		null, null, "'if'", "'else'", "'suma'", "'factorial'", "'grande'", "'load'", 
 		"'multiplicacion_numero_vector'", "'max'", "'min'", "'sort'", "'rev'", 
 		"'unique'", "'subset'", "'&&'", "'||'", "'!'", "'='", "'<'", "'>'", "'>='", 
-		"'<='", "'<-'", "'{'", "'}'", "'('", "')'", "','", null, null, "'#'", 
+		"'<='", "'<-'", "'{'", "'}'", "'('", "')'", "','", null, null, null, "'#'", 
 		"'//'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, "OPERACIONES", "IF", "ELSE", "SUMA", "FACTORIAL", "GRANDE", "LOAD", 
 		"MULTIVEC", "MAX", "MIN", "SORT", "REV", "UNIQUE", "SUBSET", "AND", "OR", 
 		"NOT", "IGUAL", "MENOR", "MAYOR", "MAYORIGUAL", "MENORIGUAL", "ASIGN", 
-		"LLAVEABRE", "LLAVECIE", "PARENTABRE", "PARENTCIE", "COMAC", "NUMBER", 
-		"ID", "FIN", "COMMENT", "WS"
+		"LLAVEABRE", "LLAVECIE", "PARENTABRE", "PARENTCIE", "COMAC", "VECTOR", 
+		"NUMBER", "ID", "FIN", "COMMENT", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -309,6 +309,7 @@ public class SimpleParser extends Parser {
 		public TerminalNode ID() { return getToken(SimpleParser.ID, 0); }
 		public TerminalNode IGUAL() { return getToken(SimpleParser.IGUAL, 0); }
 		public TerminalNode NUMBER() { return getToken(SimpleParser.NUMBER, 0); }
+		public TerminalNode VECTOR() { return getToken(SimpleParser.VECTOR, 0); }
 		public AsignacionContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -331,6 +332,7 @@ public class SimpleParser extends Parser {
 	public final AsignacionContext asignacion() throws RecognitionException {
 		AsignacionContext _localctx = new AsignacionContext(_ctx, getState());
 		enterRule(_localctx, 4, RULE_asignacion);
+		int _la;
 		try {
 			enterOuterAlt(_localctx, 1);
 			{
@@ -339,7 +341,12 @@ public class SimpleParser extends Parser {
 			setState(47);
 			match(IGUAL);
 			setState(48);
-			match(NUMBER);
+			_la = _input.LA(1);
+			if ( !(_la==VECTOR || _la==NUMBER) ) {
+			_errHandler.recoverInline(this);
+			} else {
+				consume();
+			}
 			}
 		}
 		catch (RecognitionException re) {
@@ -1031,7 +1038,7 @@ public class SimpleParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3#\u0090\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3$\u0090\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\7\2\36\n\2\f\2\16\2!\13\2\3\2\3\2\3"+
 		"\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\3\5\3/\n\3\3\4\3\4\3\4\3\4\3\5\3"+
@@ -1041,33 +1048,32 @@ public class SimpleParser extends Parser {
 		"\3\r\7\rj\n\r\f\r\16\rm\13\r\3\r\3\r\3\r\6\rr\n\r\r\r\16\rs\3\r\3\r\3"+
 		"\r\3\r\6\rz\n\r\r\r\16\r{\3\r\3\r\5\r\u0080\n\r\3\16\3\16\3\16\3\16\3"+
 		"\16\3\16\3\16\7\16\u0089\n\16\f\16\16\16\u008c\13\16\3\16\3\16\3\16\2"+
-		"\2\17\2\4\6\b\n\f\16\20\22\24\26\30\32\2\3\3\2\37 \u0092\2\37\3\2\2\2"+
-		"\4.\3\2\2\2\6\60\3\2\2\2\b\64\3\2\2\2\n8\3\2\2\2\f>\3\2\2\2\16C\3\2\2"+
-		"\2\20K\3\2\2\2\22P\3\2\2\2\24V\3\2\2\2\26[\3\2\2\2\30`\3\2\2\2\32\u0081"+
-		"\3\2\2\2\34\36\5\4\3\2\35\34\3\2\2\2\36!\3\2\2\2\37\35\3\2\2\2\37 \3\2"+
-		"\2\2 \"\3\2\2\2!\37\3\2\2\2\"#\7!\2\2#\3\3\2\2\2$/\5\6\4\2%/\5\b\5\2&"+
-		"/\5\16\b\2\'/\5\n\6\2(/\5\20\t\2)/\5\22\n\2*/\5\24\13\2+/\5\26\f\2,/\5"+
-		"\30\r\2-/\5\32\16\2.$\3\2\2\2.%\3\2\2\2.&\3\2\2\2.\'\3\2\2\2.(\3\2\2\2"+
-		".)\3\2\2\2.*\3\2\2\2.+\3\2\2\2.,\3\2\2\2.-\3\2\2\2/\5\3\2\2\2\60\61\7"+
-		" \2\2\61\62\7\24\2\2\62\63\7\37\2\2\63\7\3\2\2\2\64\65\7\37\2\2\65\66"+
-		"\7\3\2\2\66\67\7\37\2\2\67\t\3\2\2\289\7\7\2\29:\7\34\2\2:;\7\37\2\2;"+
-		"<\7\35\2\2<=\b\6\1\2=\13\3\2\2\2>?\7\17\2\2?@\7\34\2\2@A\7 \2\2AB\7\35"+
-		"\2\2B\r\3\2\2\2CD\7\6\2\2DE\7\34\2\2EF\7\37\2\2FG\7\36\2\2GH\7\37\2\2"+
-		"HI\7\35\2\2IJ\b\b\1\2J\17\3\2\2\2KL\7\16\2\2LM\7\34\2\2MN\7 \2\2NO\7\35"+
-		"\2\2O\21\3\2\2\2PQ\7\13\2\2QR\7\34\2\2RS\7 \2\2ST\b\n\1\2TU\7\35\2\2U"+
-		"\23\3\2\2\2VW\7\f\2\2WX\7\34\2\2XY\7 \2\2YZ\7\35\2\2Z\25\3\2\2\2[\\\7"+
-		"\r\2\2\\]\7\34\2\2]^\7 \2\2^_\7\35\2\2_\27\3\2\2\2`a\7\4\2\2ac\7\34\2"+
-		"\2bd\t\2\2\2cb\3\2\2\2de\3\2\2\2ec\3\2\2\2ef\3\2\2\2fk\3\2\2\2gh\7\3\2"+
-		"\2hj\t\2\2\2ig\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2ln\3\2\2\2mk\3\2\2"+
-		"\2no\7\35\2\2oq\7\32\2\2pr\5\4\3\2qp\3\2\2\2rs\3\2\2\2sq\3\2\2\2st\3\2"+
-		"\2\2tu\3\2\2\2u\177\7\33\2\2vw\7\5\2\2wy\7\32\2\2xz\5\4\3\2yx\3\2\2\2"+
-		"z{\3\2\2\2{y\3\2\2\2{|\3\2\2\2|}\3\2\2\2}~\7\33\2\2~\u0080\3\2\2\2\177"+
-		"v\3\2\2\2\177\u0080\3\2\2\2\u0080\31\3\2\2\2\u0081\u0082\7 \2\2\u0082"+
-		"\u0083\7\31\2\2\u0083\u0084\7\t\2\2\u0084\u0085\7\34\2\2\u0085\u008a\7"+
-		"\37\2\2\u0086\u0087\7\36\2\2\u0087\u0089\7\37\2\2\u0088\u0086\3\2\2\2"+
-		"\u0089\u008c\3\2\2\2\u008a\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b\u008d"+
-		"\3\2\2\2\u008c\u008a\3\2\2\2\u008d\u008e\7\35\2\2\u008e\33\3\2\2\2\n\37"+
-		".eks{\177\u008a";
+		"\2\17\2\4\6\b\n\f\16\20\22\24\26\30\32\2\4\3\2\37 \3\2 !\u0092\2\37\3"+
+		"\2\2\2\4.\3\2\2\2\6\60\3\2\2\2\b\64\3\2\2\2\n8\3\2\2\2\f>\3\2\2\2\16C"+
+		"\3\2\2\2\20K\3\2\2\2\22P\3\2\2\2\24V\3\2\2\2\26[\3\2\2\2\30`\3\2\2\2\32"+
+		"\u0081\3\2\2\2\34\36\5\4\3\2\35\34\3\2\2\2\36!\3\2\2\2\37\35\3\2\2\2\37"+
+		" \3\2\2\2 \"\3\2\2\2!\37\3\2\2\2\"#\7\"\2\2#\3\3\2\2\2$/\5\6\4\2%/\5\b"+
+		"\5\2&/\5\16\b\2\'/\5\n\6\2(/\5\20\t\2)/\5\22\n\2*/\5\24\13\2+/\5\26\f"+
+		"\2,/\5\30\r\2-/\5\32\16\2.$\3\2\2\2.%\3\2\2\2.&\3\2\2\2.\'\3\2\2\2.(\3"+
+		"\2\2\2.)\3\2\2\2.*\3\2\2\2.+\3\2\2\2.,\3\2\2\2.-\3\2\2\2/\5\3\2\2\2\60"+
+		"\61\7!\2\2\61\62\7\24\2\2\62\63\t\2\2\2\63\7\3\2\2\2\64\65\7 \2\2\65\66"+
+		"\7\3\2\2\66\67\7 \2\2\67\t\3\2\2\289\7\7\2\29:\7\34\2\2:;\7 \2\2;<\7\35"+
+		"\2\2<=\b\6\1\2=\13\3\2\2\2>?\7\17\2\2?@\7\34\2\2@A\7!\2\2AB\7\35\2\2B"+
+		"\r\3\2\2\2CD\7\6\2\2DE\7\34\2\2EF\7 \2\2FG\7\36\2\2GH\7 \2\2HI\7\35\2"+
+		"\2IJ\b\b\1\2J\17\3\2\2\2KL\7\16\2\2LM\7\34\2\2MN\7!\2\2NO\7\35\2\2O\21"+
+		"\3\2\2\2PQ\7\13\2\2QR\7\34\2\2RS\7!\2\2ST\b\n\1\2TU\7\35\2\2U\23\3\2\2"+
+		"\2VW\7\f\2\2WX\7\34\2\2XY\7!\2\2YZ\7\35\2\2Z\25\3\2\2\2[\\\7\r\2\2\\]"+
+		"\7\34\2\2]^\7!\2\2^_\7\35\2\2_\27\3\2\2\2`a\7\4\2\2ac\7\34\2\2bd\t\3\2"+
+		"\2cb\3\2\2\2de\3\2\2\2ec\3\2\2\2ef\3\2\2\2fk\3\2\2\2gh\7\3\2\2hj\t\3\2"+
+		"\2ig\3\2\2\2jm\3\2\2\2ki\3\2\2\2kl\3\2\2\2ln\3\2\2\2mk\3\2\2\2no\7\35"+
+		"\2\2oq\7\32\2\2pr\5\4\3\2qp\3\2\2\2rs\3\2\2\2sq\3\2\2\2st\3\2\2\2tu\3"+
+		"\2\2\2u\177\7\33\2\2vw\7\5\2\2wy\7\32\2\2xz\5\4\3\2yx\3\2\2\2z{\3\2\2"+
+		"\2{y\3\2\2\2{|\3\2\2\2|}\3\2\2\2}~\7\33\2\2~\u0080\3\2\2\2\177v\3\2\2"+
+		"\2\177\u0080\3\2\2\2\u0080\31\3\2\2\2\u0081\u0082\7!\2\2\u0082\u0083\7"+
+		"\31\2\2\u0083\u0084\7\t\2\2\u0084\u0085\7\34\2\2\u0085\u008a\7 \2\2\u0086"+
+		"\u0087\7\36\2\2\u0087\u0089\7 \2\2\u0088\u0086\3\2\2\2\u0089\u008c\3\2"+
+		"\2\2\u008a\u0088\3\2\2\2\u008a\u008b\3\2\2\2\u008b\u008d\3\2\2\2\u008c"+
+		"\u008a\3\2\2\2\u008d\u008e\7\35\2\2\u008e\33\3\2\2\2\n\37.eks{\177\u008a";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
